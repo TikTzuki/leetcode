@@ -11,7 +11,7 @@ pub trait Hashable {
 impl Hashable for Block {
     fn bytes(&self) -> Vec {
         let mut bytes = vec![];
-        bytes.extend(&u32_bytes(&self.index));
+        bytes.extend(&u32_bytes(&self.id));
         bytes.extend(&u128_bytes(&self.timestamp));
         bytes.extend(&self.prev_block_hash);
         bytes.extend(&u64_bytes(&self.nonce));

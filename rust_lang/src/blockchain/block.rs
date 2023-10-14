@@ -1,11 +1,13 @@
-#[derive(Debug)]
+
+#[derive(Debug, Clone)]
 pub struct Block {
-    pub index: u32,
-    pub timestamp: u128,
-    pub hash: Hash,
-    pub prev_block_hash: Hash,
+    pub id: u64,
+    pub hash: String,
+    pub previous_hash: String,
+    pub timestamp: i64,
     pub nonce: u64,
-    pub transactions: Vec,
+    pub data: String,
+    // pub transactions: Vec,
     pub difficulty: u128,
 }
 
@@ -18,10 +20,10 @@ impl Block {
         difficulty: u128,
     ) -> Self {
         Block {
-            index,
+            id: index,
             timestamp,
             hash: vec![0; 32],
-            prev_block_hash,
+            previous_hash: prev_block_hash,
             nonce: 0,
             transactions,
             difficulty,
