@@ -4,38 +4,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LongestPalindromicSubstring {
+    private StringBuilder createPalindrome(StringBuilder currentPalindromicString, int i, int j, String s) {
+        while (i >= 0 && j < s.length()) {
+            if (s.charAt(i) != s.charAt(j)) {
+                break;
+            }
+            currentPalindromicString
+                    .insert(0, s.charAt(i))
+                    .append(s.charAt(j));
+            i--;
+            j++;
+        }
+
+        return currentPalindromicString;
+    }
+
     public String longestPalindrome(String s) {
         if (s.length() == 1) {
             return s;
         }
-        List<String> palindrome = new ArrayList<>();
-        for (int k = 1; k < s.length(); k++) {
-            StringBuilder kPalindrome = new StringBuilder();
-            kPalindrome.append(s.charAt(k));
+        StringBuilder longestPalindrome = new StringBuilder();
+        for (int k = 0; k < s.length(); k++) {
+            // Odd palindromic string
             int i = k - 1;
             int j = k + 1;
-            if (k <= s.length() - 2 && s.charAt(k + 1) == s.charAt(k)) {
+            StringBuilder palindrome = createPalindrome(new StringBuilder()
+                    .append(s.charAt(k)), i, j, s);
+            if (palindrome.length() > longestPalindrome.length())
+                longestPalindrome = palindrome;
+
+            // Event palindromic string
+            if (k < s.length() - 1 && s.charAt(k) == s.charAt(k + 1)) {
+                i = k - 1;
                 j = k + 2;
-                kPalindrome.append(s.charAt(k));
+                palindrome = (createPalindrome(new StringBuilder()
+                        .append(s.charAt(k)).append(s.charAt(k)), i, j, s));
+                if (palindrome.length() > longestPalindrome.length())
+                    longestPalindrome = palindrome;
             }
-            while (i >= 0 && j < s.length()) {
-                char iChar = s.charAt(i);
-                char jChar = s.charAt(j);
-                if (iChar == jChar) {
-                    kPalindrome.insert(0, iChar);
-                    kPalindrome.append(jChar);
-                }
-                i--;
-                j++;
-            }
-            palindrome.add(kPalindrome.toString());
         }
-        return palindrome.stream().max((s1, s2) -> s1.length() - s2.length()).get();
+        return longestPalindrome.toString();
     }
 
 
     public static void main(String[] args) {
-        String s = "bb";
+        String s = "bbb";
         System.out.printf(new LongestPalindromicSubstring().longestPalindrome(s));
     }
 }
