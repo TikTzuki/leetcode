@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LongestSubstringWithoutRepeating {
     public int lengthOfLongestSubstring(String s) {
-        if(s.length()==0)
+        if(s.isEmpty())
             return 0;
         StringBuilder stringBuilder = new StringBuilder();
         List<Integer> result = new ArrayList<>();
