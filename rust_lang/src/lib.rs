@@ -16,6 +16,7 @@ use jni::sys::{jint, jlong};
 use jni::sys::jstring;
 
 mod list_demo;
+mod solutions;
 
 // This keeps Rust from "mangling" the name and making it unique for this
 // crate.

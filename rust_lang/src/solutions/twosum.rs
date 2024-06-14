@@ -11,13 +11,19 @@ impl Solution {
             if hash.contains_key(&find_value) {
                 return vec![hash[&find_value], (i as i32)];
             }
-            hash.insert(value.clone(), (i as i32));
+            hash.insert(value.clone(), i as i32);
         }
         return vec![];
     }
 }
 
-fn main() {
-    let result = Solution::two_sum(vec![1, 2, 3, 4], 7);
-    println!("{:?}", result);
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = Solution::two_sum(vec![1, 2, 3, 4], 7);
+        println!("{:?}", result);
+    }
 }
