@@ -1,7 +1,5 @@
 package org.tiktzuki.leetcode.medium;
 
-import org.apache.logging.log4j.message.AsynchronouslyFormattable;
-
 import java.util.Map;
 
 public class ValidSudoku {
