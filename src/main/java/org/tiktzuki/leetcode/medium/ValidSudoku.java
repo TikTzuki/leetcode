@@ -115,7 +115,7 @@ public class ValidSudoku {
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
         };
-
+        System.out.println(1 << '.');
         var solution = new ValidSudoku();
         var result = solution.isValidSudoku(input);
         System.out.println(result);
