@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LeetcodeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LeetcodeApplication.class, args);
+        int z = 2;
+        z |= 1 << 1;
+        System.out.println(z);
+//        SpringApplication.run(LeetcodeApplication.class, args);
     }
 
 }

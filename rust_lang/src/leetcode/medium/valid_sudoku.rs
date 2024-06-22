@@ -1,37 +1,18 @@
-use std::collections::HashMap;
-
-use once_cell::sync::Lazy;
+use std::collections::HashSet;
 
 struct ValidSudoku {}
 
-const SUPER_PRIME: u32 = 223092870;
-
-
 impl ValidSudoku {
     pub fn is_valid_set(set: &Vec<char>) -> bool {
-        let MAP: HashMap<char, u32> = HashMap::from([
-                ('1', 2),
-                ('2', 3),
-                ('3', 5),
-                ('4', 7),
-                ('5', 11),
-                ('6', 13),
-                ('7', 17),
-                ('8', 19),
-                ('9', 23),
-            ]);
-
-        let mut current = SUPER_PRIME;
+        let mut traveled: HashSet<char> = HashSet::new();
         for c in set {
             if c.eq(&'.') {
                 continue;
             }
-            let prime_divider = MAP.get(c);
-            let modulo = current % prime_divider.unwrap();
-            current = current / prime_divider.unwrap();
-            if modulo != 0 {
+            if traveled.contains(c) {
                 return false;
             }
+            traveled.insert(*c);
         }
         return true;
     }
