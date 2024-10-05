@@ -1,7 +1,8 @@
 use k256::{ecdh::EphemeralSecret, EncodedPoint, PublicKey};
 use rand_core::OsRng;
-
+pub mod inverse;
 fn main() {
+
     let a = EphemeralSecret::random(&mut OsRng);
     let A = EncodedPoint::from(a.public_key());
 
