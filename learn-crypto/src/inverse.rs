@@ -14,24 +14,21 @@ Extended Euclidean algorithm
 * @param b
 * @return Unit(a, b, x, y, d);
  */
-pub fn inverse(origin_a: i64, mut m: i64) -> i64 {
+pub fn inverse(origin_a: isize, mut m: isize) -> isize {
     let mut a = origin_a;
-    let mut d = 0;
-    let mut x = 0;
-    let mut y = 0;
-    if (m == 0) {
-        d = a;
+    let mut x ;
+    let mut y;
+    if m == 0 {
         x = 1;
-        y = 0;
         return x;
     }
     let mut x2 = 1;
     let mut x1 = 0;
     let mut y2 = 0;
     let mut y1 = 1;
-    let mut q = 0;
-    let mut r = 0;
-    while (m > 0) {
+    let mut q;
+    let mut r;
+    while m > 0 {
         q = a / m;
         r = a - q * m;
         x = x2 - q * x1;
@@ -44,8 +41,6 @@ pub fn inverse(origin_a: i64, mut m: i64) -> i64 {
         y2 = y1;
         y1 = y;
     }
-    d = a;
-    x = y2;
     y = y2;
     return if y < 0 { origin_a + y } else { y };
 }
@@ -59,11 +54,11 @@ mod tests {
     use super::*;
 
     #[parameterized(
-        a = { 43,43,47 },
-        b = { 1,2,2 },
-        expected = { 1,22,24 }
+        a = { 43, 43, 47 },
+        b = { 1, 2, 2 },
+        expected = { 1, 22, 24 }
     )]
-    fn test_inverse(a: i64, b: i64, expected: i64) {
+    fn test_inverse(a: isize, b: isize, expected: isize) {
         assert_eq!(inverse(a, b), expected);
     }
 }

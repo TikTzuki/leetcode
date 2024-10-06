@@ -1,36 +1,20 @@
-use k256::{ecdh::EphemeralSecret, EncodedPoint, PublicKey};
-use rand_core::OsRng;
+use dotenv::dotenv;
+
 pub mod inverse;
-fn main() {
+pub mod eth_wallet;
+mod utils;
 
-    let a = EphemeralSecret::random(&mut OsRng);
-    let A = EncodedPoint::from(a.public_key());
+#[tokio::main]
+async fn main() {
+    dotenv().ok();
+    let wallet = eth_wallet::Wallet::from_file("wallet1.json").unwrap();
+    println!("loaded wallet: {:?}", wallet);
+    let endpoint = std::env::var("INFURA_WS").unwrap();
+    let web3_conn = eth_wallet::establish_web3_connection(&endpoint).await.unwrap();
 
-    let b = EphemeralSecret::random(&mut OsRng);
-    let B = EncodedPoint::from(b.public_key());
+    let block_number = web3_conn.eth().block_number().await.unwrap();
+    println!("block number: {:?}", block_number);
 
-    let bob_public = PublicKey::from_sec1_bytes(B.as_ref())
-        .expect("Bob's public key invalid");
-
-    let alice_public = PublicKey::from_sec1_bytes(A.as_ref())
-        .expect("Bob's public key invalid");
-
-    let Abytes = A.as_ref();
-    println!("\nAlice public key {:x?}", hex::encode(Abytes));
-
-    let Bbytes = B.as_ref();
-    println!("\nBob public key {:x?}", hex::encode(Bbytes));
-
-    let alice_shared = a.diffie_hellman(&bob_public);
-    let bob_shared = b.diffie_hellman(&alice_public);
-
-    let shared1 = alice_shared.raw_secret_bytes();
-    println!("\nAlice shared key {:x?}", hex::encode(shared1));
-
-    let shared2= bob_shared.raw_secret_bytes();
-    println!("\nBob shared key {:x?}",hex::encode(shared2));
-
-    if (alice_shared.raw_secret_bytes()==bob_shared.raw_secret_bytes()){
-        println!("\nKeys are the same")
-    }
+    let balance = wallet.get_balance_in_eth(&web3_conn).await.unwrap();
+    println!("balance: {:?}", balance);
 }

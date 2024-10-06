@@ -1,3 +1,4 @@
+use big_int::BigInt;
 use crate::inverse::inverse;
 
 // def double(point)
@@ -14,11 +15,22 @@ use crate::inverse::inverse;
 // return { x: x, y: y }
 // end
 
-const P: &i64 = &64;
-const a: &i64 = &13;
+const P: &isize = &47;
+const a: &isize = &0;
 
-pub fn double(point: (i64, i64)) -> (i64, i64) {
-    let slope = ((3 * point.0 * *2 + a) * inverse(point.1 * 2, *P)) % *P;
-    
-    return (1, 2);
+pub fn double(point: (isize, isize)) -> (isize, isize) {
+    let slope = ((3 * point.0.pow(2)  + a) * inverse(point.1 * 2, *P)) % *P;
+    println!("slope: {}", slope);
+    let x = (slope.pow(2) - (2 * point.0)) % *P;
+    let y = (slope * (point.0 - x) - point.1) % *P;
+    return (x, y);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_double() {
+    }
 }
