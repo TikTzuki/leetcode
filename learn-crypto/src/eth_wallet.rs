@@ -8,10 +8,10 @@ use secp256k1::rand::rngs;
 use serde::{Deserialize, Serialize};
 use web3::signing::keccak256;
 use web3::transports::WebSocket;
-use web3::types::{Address, U256};
+use web3::types::{Address, H256, TransactionParameters, U256};
 use web3::Web3;
 
-use crate::utils::{get_nstime, wei_to_eth};
+use crate::utils::{eth_to_wei, get_nstime, wei_to_eth};
 
 pub fn generate_keypair() -> (SecretKey, PublicKey) {
     let secp = Secp256k1::new();
@@ -86,6 +86,32 @@ impl Wallet {
         let wei_balance = self.get_balance(web3_connection).await?;
         Ok(wei_to_eth(wei_balance))
     }
+
+
+}
+pub fn create_eth_transaction(to: Address, eth_value: f64) -> TransactionParameters {
+    TransactionParameters {
+        to: Some(to),
+        value: eth_to_wei(eth_value),
+        ..Default::default()
+    }
+}
+
+pub async fn sign_and_send(
+    web3: &Web3<WebSocket>,
+    transaction: TransactionParameters,
+    secret_key: &SecretKey,
+) -> Result<H256> {
+    let signed = web3
+        .accounts()
+        .sign_transaction(transaction, secret_key)
+        .await.unwrap();
+
+    let transaction_result = web3
+        .eth()
+        .send_raw_transaction(signed.raw_transaction)
+        .await.unwrap();
+    Ok(transaction_result)
 }
 
 pub async fn establish_web3_connection(url: &str) -> Result<Web3<WebSocket>> {

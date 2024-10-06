@@ -11,9 +11,7 @@ elliptic-curve = "0.13.8"
 hex = "0.4.3"
 secp256k1 = { version = "0.20.3", features = ["rand",] }
 rand_core = "0.6.4"
-sha2 = "0.10.8"
-big-int = "7.0.0"
-web3 = "0.19.0"
+web3 = "0.17.0"
 serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.128"
 log = "0.4.22"
