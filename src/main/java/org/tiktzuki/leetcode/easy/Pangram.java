@@ -1,16 +1,16 @@
 package org.tiktzuki.leetcode.easy;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Pangram {
     public boolean checkIfPangram(String sentence) {
-        Set<Character> characters = new HashSet<>();
+        int[] characters = new int[26];
+        int count = 0;
         for (char c : sentence.toLowerCase().toCharArray()) {
-            if (97 <= c && c <= 122)
-                characters.add(c);
+            if (97 <= c && c <= 122 && characters[c - 97] == 0) {
+                characters[c - 97] = 1;
+                count++;
+            }
         }
-        return characters.size() == 26;
+        return count == 26;
     }
 
 

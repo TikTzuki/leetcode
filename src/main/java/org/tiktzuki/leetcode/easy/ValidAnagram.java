@@ -1,27 +1,28 @@
 package org.tiktzuki.leetcode.easy;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 public class ValidAnagram {
-    Set<Map<Integer, Integer>> sets = new HashSet<>();
+    int[] count = new int[26];
 
     public boolean isAnagram(String s, String t) {
-        Map<Integer, Integer> m = new HashMap<>();
-        s.chars().forEach(c -> m.merge(c, 1, Integer::sum));
-        sets.add(m);
+        for (char c : s.toCharArray()) {
+            count[c - 97]++;
+        }
+        for (char c : t.toCharArray()) {
+            count[c - 97]--;
+        }
 
-        Map<Integer, Integer> m2 = new HashMap<>();
-        t.chars().forEach(c -> m2.merge(c, 1, Integer::sum));
-        return sets.contains(m2);
+        for (int j : count) {
+            if (j != 0)
+                return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
-        String s = "rac";
-        String t = "car";
-        boolean rs = new ValidAnagram().isAnagram(s, t);
+        String s = "racecar";
+        String t = "racecars";
+        var solution = new ValidAnagram();
+        boolean rs = solution.isAnagram(s, t);
         System.out.println(rs);
     }
 }
